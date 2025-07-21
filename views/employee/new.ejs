@@ -1,0 +1,51 @@
+<%- include("../partials/header") %>
+
+<h2>Add New Employee</h2>
+
+<form action="/employee" method="POST">
+  <label>Name:</label><br />
+  <input name="name" placeholder="Name" required /><br />
+
+  <label>Email:</label><br />
+  <input name="email" placeholder="Email" required /><br />
+
+  <label>Phone:</label><br />
+  <input name="phone" placeholder="Phone" /><br />
+
+  <label>Department:</label><br />
+  <input name="department" placeholder="Department" /><br />
+
+  <label>Role in company:</label><br />
+  <input name="role" placeholder="e.g. Developer, Manager" /><br />
+
+  <hr />
+
+  <label>Create Login Credentials?</label><br />
+  <select name="createLogin" id="createLogin" onchange="toggleLoginFields(this)">
+    <option value="no">No</option>
+    <option value="yes">Yes</option>
+  </select><br />
+
+  <div id="loginFields" style="display: none;">
+    <label>Username (email or ID):</label><br />
+    <input name="loginUsername" /><br />
+
+    <label>Login Role:</label><br />
+    <select name="loginRole">
+      <option value="employee">Employee</option>
+      <option value="admin">Admin</option>
+    </select><br />
+
+    <label>Password:</label><br />
+    <input name="loginPassword" type="password" /><br />
+  </div>
+
+  <button type="submit">Create</button>
+</form>
+
+<script>
+function toggleLoginFields(select) {
+  const section = document.getElementById('loginFields');
+  section.style.display = select.value === 'yes' ? 'block' : 'none';
+}
+</script>

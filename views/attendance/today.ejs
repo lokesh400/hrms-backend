@@ -1,0 +1,18 @@
+<%- include("../partials/header") %>
+<h2>Today’s Attendance</h2>
+
+<% if (!record) { %>
+  <form action="/attendance/checkin" method="POST">
+    <button type="submit">Check In</button>
+  </form>
+<% } else { %>
+  <p>Checked in at: <%= record.checkInTime?.toLocaleTimeString() %></p>
+
+  <% if (!record.checkOutTime) { %>
+    <form action="/attendance/checkout" method="POST">
+      <button type="submit">Check Out</button>
+    </form>
+  <% } else { %>
+    <p>Checked out at: <%= record.checkOutTime?.toLocaleTimeString() %></p>
+  <% } %>
+<% } %>

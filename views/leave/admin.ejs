@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <h2>Leave Applications</h2>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Type</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% leaves.forEach(leave => { %>
+        <tr>
+          <td><%= leave.user.username %></td>
+          <td><%= new Date(leave.fromDate).toDateString() %></td>
+          <td><%= new Date(leave.toDate).toDateString() %></td>
+          <td><%= leave.type %></td>
+          <td><%= leave.reason %></td>
+          <td>
+            <span class="badge bg-<%= leave.status === 'Pending' ? 'warning' : (leave.status === 'Approved' ? 'success' : 'danger') %>">
+              <%= leave.status %>
+            </span>
+          </td>
+          <td>
+            <% if (leave.status === 'Pending') { %>
+              <form method="POST" action="/admin/leave/<%= leave._id %>/Approved" style="display:inline;">
+                <button class="btn btn-sm btn-success">Approve</button>
+              </form>
+              <form method="POST" action="/admin/leave/<%= leave._id %>/Rejected" style="display:inline;">
+                <button class="btn btn-sm btn-danger">Reject</button>
+              </form>
+            <% } else { %>
+              <span class="text-muted">No action</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+

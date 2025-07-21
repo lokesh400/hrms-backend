@@ -1,0 +1,41 @@
+<!-- views/admin/attendanceAdjustments.ejs -->
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <h2>Pending Attendance Adjustment Requests</h2>
+  <% if(requests.length === 0) { %>
+    <p>No pending requests.</p>
+  <% } else { %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Date</th>
+          <th>Reason</th>
+          <th>Applied At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% requests.forEach(r => { %>
+          <tr>
+            <td><%= r.user.username %></td>
+            <td><%= new Date(r.date).toDateString() %></td>
+            <td><%= r.reason %></td>
+            <td><%= new Date(r.appliedAt).toLocaleString() %></td>
+            <td>
+              <form style="display:inline" method="POST" action="/admin/attendance-adjustments/<%= r._id %>/approve">
+                <button class="btn btn-success btn-sm">Approve</button>
+              </form>
+              <form style="display:inline" method="POST" action="/admin/attendance-adjustments/<%= r._id %>/reject">
+                <button class="btn btn-danger btn-sm">Reject</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

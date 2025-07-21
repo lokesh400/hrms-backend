@@ -1,0 +1,25 @@
+<%- include("../partials/header") %>
+
+<h2>Employees</h2>
+<a href="/employee/new">➕ Add New Employee</a>
+
+<table border="1">
+  <tr>
+    <th>Name</th><th>Email</th><th>Phone</th><th>Department</th><th>Role</th><th>Actions</th>
+  </tr>
+  <% employees.forEach(emp => { %>
+    <tr>
+      <td><%= emp.name %></td>
+      <td><%= emp.email %></td>
+      <td><%= emp.phone %></td>
+      <td><%= emp.department %></td>
+      <td><%= emp.role %></td>
+      <td>
+        <a href="/employee/<%= emp._id %>/edit">✏️ Edit</a> |
+        <form action="/employee/<%= emp._id %>?_method=DELETE" method="POST" style="display:inline;">
+          <button onclick="return confirm('Are you sure?')" type="submit">🗑️ Delete</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>

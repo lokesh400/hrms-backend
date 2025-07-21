@@ -1,0 +1,13 @@
+<h2><%= employee.name %></h2>
+<p>Email: <%= employee.email %></p>
+<p>Phone: <%= employee.phone %></p>
+<p>Department: <%= employee.department %></p>
+<p>Role: <%= employee.role %></p>
+
+<% if (currentUser?.role === 'admin') { %>
+  <a href="/employees/<%= employee._id %>/edit">Edit</a>
+  <form method="POST" action="/employees/<%= employee._id %>?_method=DELETE">
+    <button type="submit">Delete</button>
+  </form>
+<% } %>
+<a href="/employees">Back</a>

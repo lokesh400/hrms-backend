@@ -1,0 +1,12 @@
+<%- include("../partials/header") %>
+
+<h2>Edit Employee</h2>
+
+<form action="/employee/<%= employee._id %>?_method=PUT" method="POST">
+  <input name="name" value="<%= employee.name %>" required /><br />
+  <input name="email" value="<%= employee.email %>" required /><br />
+  <input name="phone" value="<%= employee.phone %>" /><br />
+  <input name="department" value="<%= employee.department %>" /><br />
+  <input name="role" value="<%= employee.role %>" /><br />
+  <button type="submit">Update</button>
+</form>

@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+<h2>All Attendance Records</h2>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Check-In</th>
+    <th>Check-Out</th>
+  </tr>
+  <% records.forEach(r => { %>
+    <tr>
+      <td><%= r.user.name %></td>
+      <td><%= r.date.toDateString() %></td>
+      <td><%= r.checkInTime?.toLocaleTimeString() %></td>
+      <td><%= r.checkOutTime?.toLocaleTimeString() %></td>
+    </tr>
+  <% }) %>
+</table>

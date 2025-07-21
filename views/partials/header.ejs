@@ -1,0 +1,12 @@
+<% if (currentUser) { %>
+<a href="/dashboard">Dashboard</a>
+<a href="/attendance/today">My Attendance</a>
+<% if (currentUser.role === "admin" || currentUser.role === "hr") { %>
+<a href="/attendance/all">All Records</a>
+<% } %>
+<% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'hr')) { %>
+<a href="/employee">Employees</a>
+<% } %>
+
+<a href="/logout">Logout</a>
+<% } %>
