@@ -23,6 +23,10 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+const expressLayouts = require("express-ejs-layouts");
+app.use(expressLayouts);
+app.set("layout", "layouts/main"); // default layout file views/layouts/main.ejs
+
 // Session setup
 app.use(session({
   secret: process.env.SESSION_SECRET || "hrmsSecret",
@@ -55,6 +59,8 @@ app.use(cors({ origin: "", credentials: true }));
 
 // Routes
 app.use("/", require("./routes/auth"));
+app.use("/", require("./routes/holiday"));
+app.use("/", require("./routes/leave"));
 app.use("/employee", require("./routes/employee"));
 app.use("/attendance", require("./routes/attendance"));
 

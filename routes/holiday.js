@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const Holiday = require("../models/Holiday");
-const { isAdmin } = require("./middleware"); // your admin check middleware
+const { isAdmin } = require("../middleware/verifyToken"); // your admin check middleware
 
 // Get all holidays
 router.get("/admin/holidays", isAdmin, async (req, res) => {

@@ -12,8 +12,9 @@ function isAdminOrHR(req, res, next) {
 
 // List all employees
 router.get("/", isAdminOrHR, async (req, res) => {
-  const employees = await Employee.find();
-  res.render("employee/index", { employees });
+ const employees = await Employee.find();
+  const departments = await Employee.distinct("department");
+  res.render("employee/index", { employees, departments });
 });
 
 // Show form to add new employee

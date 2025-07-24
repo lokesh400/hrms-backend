@@ -1,25 +1,80 @@
-<%- include("../partials/header") %>
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Employees</h2>
+    <a href="/employee/new" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">➕ Add Employee</a>
+  </div>
 
-<h2>Employees</h2>
-<a href="/employee/new">➕ Add New Employee</a>
+  <!-- 🔍 Search & Filter -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input id="searchInput" type="text" placeholder="Search name/email/phone" class="border px-4 py-2 rounded w-full md:w-1/2" />
+    <select id="departmentFilter" class="border px-4 py-2 rounded w-full md:w-1/4">
+      <option value="">All Departments</option>
+      <% departments.forEach(dep => { %>
+        <option value="<%= dep %>"><%= dep %></option>
+      <% }) %>
+    </select>
+  </div>
 
-<table border="1">
-  <tr>
-    <th>Name</th><th>Email</th><th>Phone</th><th>Department</th><th>Role</th><th>Actions</th>
-  </tr>
-  <% employees.forEach(emp => { %>
-    <tr>
-      <td><%= emp.name %></td>
-      <td><%= emp.email %></td>
-      <td><%= emp.phone %></td>
-      <td><%= emp.department %></td>
-      <td><%= emp.role %></td>
-      <td>
-        <a href="/employee/<%= emp._id %>/edit">✏️ Edit</a> |
-        <form action="/employee/<%= emp._id %>?_method=DELETE" method="POST" style="display:inline;">
-          <button onclick="return confirm('Are you sure?')" type="submit">🗑️ Delete</button>
-        </form>
-      </td>
-    </tr>
-  <% }) %>
-</table>
+  <!-- 📋 Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white rounded-lg shadow" id="employeeTable">
+      <thead>
+        <tr class="bg-gray-100 text-gray-700 text-left text-sm uppercase tracking-wider">
+          <th class="px-6 py-3">Name</th>
+          <th class="px-6 py-3">Email</th>
+          <th class="px-6 py-3">Phone</th>
+          <th class="px-6 py-3">Department</th>
+          <th class="px-6 py-3">Role</th>
+          <th class="px-6 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="employeeBody" class="text-gray-700">
+        <% employees.forEach(emp => { %>
+          <tr data-name="<%= emp.name.toLowerCase() %>" data-email="<%= emp.email.toLowerCase() %>" data-phone="<%= emp.phone %>" data-department="<%= emp.department %>" class="border-b hover:bg-gray-50">
+            <td class="px-6 py-4"><%= emp.name %></td>
+            <td class="px-6 py-4"><%= emp.email %></td>
+            <td class="px-6 py-4"><%= emp.phone %></td>
+            <td class="px-6 py-4"><%= emp.department %></td>
+            <td class="px-6 py-4"><%= emp.role %></td>
+            <td class="px-6 py-4 space-x-2">
+              <a href="/employee/<%= emp._id %>/edit" class="text-blue-600 hover:underline">✏️ Edit</a>
+              <form action="/employee/<%= emp._id %>?_method=DELETE" method="POST" class="inline">
+                <button onclick="return confirm('Are you sure?')" type="submit" class="text-red-600 hover:underline">🗑️</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const departmentFilter = document.getElementById('departmentFilter');
+  const rows = document.querySelectorAll('#employeeBody tr');
+
+  function filterRows() {
+    const search = searchInput.value.toLowerCase();
+    const department = departmentFilter.value;
+
+    rows.forEach(row => {
+      const name = row.dataset.name;
+      const email = row.dataset.email;
+      const phone = row.dataset.phone;
+      const dep = row.dataset.department;
+
+      const matchesSearch = name.includes(search) || email.includes(search) || phone.includes(search);
+      const matchesDept = !department || dep === department;
+
+      if (matchesSearch && matchesDept) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  searchInput.addEventListener('input', filterRows);
+  departmentFilter.addEventListener('change', filterRows);
+</script>

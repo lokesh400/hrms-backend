@@ -14,3 +14,15 @@ function verifyToken(req, res, next) {
 }
 
 module.exports = verifyToken;
+
+
+// middleware.js
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated() && req.user && req.user.role === "admin") {
+    return next();
+  } else {
+    return res.status(403).json({ error: "Access denied: Admins only" });
+  }
+}
+
+module.exports = { isAdmin };
